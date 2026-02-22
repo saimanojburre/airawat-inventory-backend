@@ -7,17 +7,23 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 public class CorsConfig {
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
 
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
 
-				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:4200", "https://airawat-inventory-frontend.onrender.com")
-						.allowedMethods("*").allowedHeaders("*").allowCredentials(true);
-			}
-		};
-	}
+                registry.addMapping("/**")
+                        .allowedOrigins(
+                                "http://localhost:4200",
+                                "https://airawat-inventory-frontend.onrender.com",
+                                "https://lovely-horse-069f75.netlify.app"
+                        )
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
+    }
 }
