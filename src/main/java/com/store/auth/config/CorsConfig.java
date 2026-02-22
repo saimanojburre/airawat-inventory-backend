@@ -17,8 +17,7 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:4200",
-                                "https://airawat-inventory-frontend.onrender.com",
-                                "https://lovely-horse-069f75.netlify.app"
+                                "https://inventory.theairawatkitchen.in/"
                         )
                         .allowedMethods("*")
                         .allowedHeaders("*")
