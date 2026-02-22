@@ -1,6 +1,9 @@
 package com.store.auth.service;
 
+import com.store.auth.dto.PurchaseResponse;
+import com.store.auth.entity.Item;
 import com.store.auth.entity.Purchase;
+import com.store.auth.repository.ItemRepository;
 import com.store.auth.repository.PurchaseRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +14,11 @@ import java.util.List;
 public class PurchaseService {
 
 	private final PurchaseRepository purchaseRepository;
+	private final ItemRepository itemRepository;
 
-	public PurchaseService(PurchaseRepository purchaseRepository) {
+	public PurchaseService(PurchaseRepository purchaseRepository, ItemRepository itemRepository) {
 		this.purchaseRepository = purchaseRepository;
+		this.itemRepository = itemRepository;
 	}
 
 	// ✅ ADD SINGLE PURCHASE (existing)
@@ -49,7 +54,30 @@ public class PurchaseService {
 	}
 
 	// ✅ GET ALL PURCHASES
-	public List<Purchase> getAllPurchases() {
-		return purchaseRepository.findAll();
+	public List<PurchaseResponse> getAllPurchases() {
+
+		List<Purchase> purchases = purchaseRepository.findAll();
+
+		return purchases.stream().map(p -> {
+
+			PurchaseResponse dto = new PurchaseResponse();
+
+			dto.setId(p.getId());
+			dto.setItemId(p.getItemId());
+
+			// ✅ FETCH ITEM NAME
+			String itemName = itemRepository.findById(p.getItemId()).map(Item::getItemName).orElse("Unknown Item");
+
+			dto.setItemName(itemName);
+
+			dto.setQuantity(p.getQuantity());
+			dto.setPricePerUnit(p.getPricePerUnit());
+			dto.setTotalPrice(p.getTotalPrice());
+			dto.setPurchasedFrom(p.getPurchasedFrom());
+			dto.setPurchaseDate(p.getPurchaseDate());
+
+			return dto;
+
+		}).toList();
 	}
 }

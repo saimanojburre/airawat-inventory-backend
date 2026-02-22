@@ -1,8 +1,12 @@
 package com.store.auth.service;
 
+import com.store.auth.entity.Item;
 import com.store.auth.entity.User;
 import com.store.auth.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.store.auth.dto.LoginRequest;
 import com.store.auth.security.JwtService;
@@ -41,4 +45,8 @@ public class UserService {
 
 		throw new RuntimeException("Invalid password");
 	}
+	//get all users
+	public List<User> getAll() {
+        return userRepository.findAll();
+    }
 }

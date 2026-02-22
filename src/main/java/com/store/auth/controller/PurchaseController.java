@@ -1,5 +1,6 @@
 package com.store.auth.controller;
 
+import com.store.auth.dto.PurchaseResponse;
 import com.store.auth.entity.Purchase;
 import com.store.auth.service.PurchaseService;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class PurchaseController {
 	}
 
 	@GetMapping
-	public List<Purchase> getPurchases() {
-		return purchaseService.getAllPurchases();
+	public List<PurchaseResponse> getAll() {
+	    return purchaseService.getAllPurchases();
 	}
 }

@@ -1,6 +1,9 @@
 package com.store.auth.service;
 
+import com.store.auth.dto.UsageResponse;
+import com.store.auth.entity.Item;
 import com.store.auth.entity.Usage;
+import com.store.auth.repository.ItemRepository;
 import com.store.auth.repository.UsageRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +15,14 @@ public class UsageService {
 
 	private final UsageRepository usageRepository;
 	private final InventoryService inventoryService;
+	private final ItemRepository itemRepository;
 
-	public UsageService(UsageRepository usageRepository, InventoryService inventoryService) {
+	public UsageService(UsageRepository usageRepository, InventoryService inventoryService,
+			ItemRepository itemRepository) {
 
 		this.usageRepository = usageRepository;
 		this.inventoryService = inventoryService;
+		this.itemRepository = itemRepository;
 	}
 
 	// ✅ SINGLE USAGE
@@ -50,7 +56,32 @@ public class UsageService {
 		return usageRepository.saveAll(usages);
 	}
 
-	public List<Usage> getAll() {
-		return usageRepository.findAll();
+	public List<UsageResponse> getAllUsage() {
+
+		List<Usage> usages = usageRepository.findAll();
+
+		return usages.stream().map(u -> {
+
+			UsageResponse dto = new UsageResponse();
+
+			dto.setId(u.getId());
+			dto.setItemId(u.getItemId());
+
+			// ✅ fetch item name
+			String itemName = itemRepository.findById(u.getItemId()).map(Item::getItemName).orElse("Unknown Item");
+
+			dto.setItemName(itemName);
+
+			dto.setQuantity(u.getQuantity());
+			dto.setDepartment(u.getDepartment());
+			dto.setUsedFor(u.getUsedFor());
+			dto.setGivenBy(u.getGivenBy());
+			dto.setTakenBy(u.getTakenBy());
+			dto.setUsageTime(u.getUsageTime());
+
+			return dto;
+
+		}).toList();
 	}
+
 }

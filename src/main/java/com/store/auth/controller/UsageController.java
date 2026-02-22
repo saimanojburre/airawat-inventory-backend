@@ -1,5 +1,6 @@
 package com.store.auth.controller;
 
+import com.store.auth.dto.UsageResponse;
 import com.store.auth.entity.Usage;
 import com.store.auth.service.UsageService;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,8 @@ public class UsageController {
 		return usageService.bulkAdd(usages);
 	}
 
-	// ✅ GET ALL
 	@GetMapping
-	public List<Usage> getAll() {
-		return usageService.getAll();
+	public List<UsageResponse> getAllUsage() {
+	    return usageService.getAllUsage();
 	}
 }
