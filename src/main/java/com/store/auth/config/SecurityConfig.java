@@ -25,12 +25,11 @@ public class SecurityConfig {
 		http.cors(cors -> {
 		}).csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
 
-				// ✅ PUBLIC APIs (DEV MODE)
-				.requestMatchers("/auth/**").permitAll().requestMatchers("/usage/**").permitAll()
-				.requestMatchers("/purchases/**").permitAll().requestMatchers("/inventory/**").permitAll()
-				.requestMatchers("/items/**").permitAll()
+				// ✅ PUBLIC APIs
+				.requestMatchers("/", "/auth/**", "/usage/**", "/purchases/**", "/inventory/**", "/items/**", "/error")
+				.permitAll()
 
-				// others protected
+				// 🔒 others protected
 				.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.formLogin(form -> form.disable());
