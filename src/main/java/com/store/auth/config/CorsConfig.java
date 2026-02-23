@@ -17,6 +17,7 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:4200",
+                                "https://airawat-inventory-frontend.onrender.com/",
                                 "https://inventory.theairawatkitchen.in/"
                         )
                         .allowedMethods("*")
